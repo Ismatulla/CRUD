@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+ <!-- google fonts -->
+ <link href="https://fonts.googleapis.com/css?family=Courgette" rel="stylesheet">
+
+ <!-- font awesome -->
+ <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.css">
+
+ <!-- Style CSS -->
+
+ <link rel="stylesheet" href="style.css">
+ <title>Grocery Item</title>
+ <style>
+ </style>
+</head>
+
+<body>
+ <div class="container">
+  <div class="row">
+    <div class="alert">
+    Please Enter Valid Value
+    </div>
+    <!-- form -->
+    <form id="itemForm" class="myForm">
+     <h3 class="header">To Do List</h3>
+     <div class="input-group">
+      <input type="text" class="form-control" id="itemInput" placeholder="name...">
+      <div class="input-group-append">
+       <button class="btn btn-green " type="submit">add item</button>
+      </div>
+     </div>
+    </form>
+    <div class="item-container">
+     
+     <div class="item-list">
+
+      <!-- single item -->
+       <!-- <div class="item ">
+      <h5 class="item-name ">laundry</h5>
+      <div class="item-icons">
+       <a href="#" class="check icons"><i class="far fa-check-circle"></i></a>
+       <a href="#" class="edit icons"><i class="far fa-edit"></i></a>
+       <a href="#" class="delete icons"><i class="far fa-times-circle"></i></a>
+      </div>
+     </div> 
+
+     -->
+     </div>
+     <button type="button" class="btn clearButton" id="clear-list">clear items</button>
+    </div>
+   </div>
+  </div>
+ 
+ <script src="script.js"></script>
+</body>
+
+</html>
