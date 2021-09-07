@@ -101,13 +101,11 @@
     font-size: 20px;
 }
 .item-icons{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+     padding: 8px; 
     
 }
 .item-icons .icons{    
-padding: 0 8px;
+ padding: 4px;
  align-items: center;
  
 } 
@@ -121,4 +119,8 @@ color:rgb(54, 126, 54);
 
 .item-icons .delete{
     color: rgb(156, 57, 57);
+}
+
+.item-name{
+ text-decoration: line-through;
 }
