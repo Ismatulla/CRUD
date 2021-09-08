@@ -1,87 +1,97 @@
-const input = document.querySelector('#itemInput')
-const button = document.querySelector('.btn-green')
-const itemContainer = document.querySelector('.item-container')
-const alert = document.querySelector('.alert')
-const itemList = document.querySelector('.item-list')
-const clearButton = document.querySelector('.clearButton')
-/* Icons */
-let checkIcon = '<a href="#" class="check icons"><i class="far fa-check-circle"></i></a>' 
-let editIcon = '<a href="#" class="edit icons"><i class="far fa-edit"></i></a>'
-let deleteIcon = '<a href="#" class="delete icons"><i class="far fa-times-circle"></i></a>'
+const form = document.querySelector('.todo-form');
+const input = document.querySelector('.todo-input')
+const ul = document.querySelector('.todo-items')
 
+let todos = []
 
-/* EVENT LISTENER */
-
-button.addEventListener('click',(e)=>{
-e.preventDefault()
- warning()
+form.addEventListener('submit',function(event){
+    event.preventDefault()
+    addTodo(input.value)
 })
 
-/* Warning !!! */
 
-function warning(){
-    if(input.value === ''){
-        alert.style.display = 'flex'
-        setTimeout(()=>{
-        alert.style.display = 'none'
-            },2000)
-    }else{
-       check()
+function addTodo(item){
+    if(item !==''){
+        const todo = {
+            id: Date.now(),
+            name:item,
+            completed:false
+        }
+
+        todos.push(todo)
+       addToLocalStorage(todos)
+        input.value = ''
     }
 }
 
-/* Function Check */
-
-function check(){
-
-    let checkIcons = document.createElement('button')
-    let editIcons = document.createElement('button')
-    let deleteIcons = document.createElement('button')
-    const item = document.createElement('div')
-
-    checkIcons.classList.add('item-icons')
-    editIcons.classList.add('item-icons')
-    deleteIcons.classList.add('item-icons')
-    checkIcons.innerHTML = checkIcon
-    editIcons.innerHTML = editIcon
-    deleteIcons.innerHTML = deleteIcon
-    
-
-    item.classList.add('item')
-    const h5 = document.createElement('h5')
-    h5.innerText = input.value
-   
-    item.append(h5,checkIcons,editIcons,deleteIcons) 
-
-    itemList.appendChild(item)
-    alert.style.display = 'none'
-    input.value = ''  
-     
-
-    checkIcons.addEventListener('click',()=>{
-        h5.classList.add('item-name')
-       
-    })
-
-
-    editIcons.addEventListener('click',()=>{
-        item.remove()
-        input.value = h5.innerText
-    })
-    
-    deleteIcons.addEventListener('click',()=>{
-        item.remove()
-    })
-       
-    document.querySelector('.clearButton').addEventListener('click',()=>{
-        item.remove()
+function renderTodos(todos){
+     ul.innerHTML = ''
+ 
+     todos.forEach(function(item){
+        const checked = item.completed ? 'checked':null;
+        const li = document.createElement('li')
+        li.setAttribute('class','item')
+        li.setAttribute('data-key',item.id);
         
+        if(item.completed === true){
+            li.classList.add('checked')
+
+        }
+
+        li.innerHTML = `<input type="checkbox" class="checkbox" ${checked}>
+        ${item.name} <button class="delete-button">X</button>`;
+         ul.append(li)
+    })
+}
+
+function addToLocalStorage(todos){
+    localStorage.setItem('todos',JSON.stringify(todos));
+    renderTodos(todos)
+}
+
+function getFromLocalStorage(){
+    const reference = localStorage.getItem('todos')
+
+    if(reference){
+        todos = JSON.parse(reference)
+        renderTodos(todos)
+    }
+}
+getFromLocalStorage()
+
+
+ul.addEventListener('click',function(e){
+    e.preventDefault()
+    if(e.target.type === 'checkbox'){
+        toggle(e.target.parentElement.getAttribute('data-key'))
+        console.log(e.target)
+    }
+
+    if(e.target.classList.contains('delete-button')){
+        deleteTodo(e.target.parentElement.getAttribute('data-key'))
+    }
+})
+
+
+
+function toggle(id){
+    todos.forEach(function(item){
+  if(item.id == id){
+      item.completed = !item.completed
+  }
+    })
+    addToLocalStorage(todos)
+}
+
+
+
+function deleteTodo(id){
+    todos = todos.filter(function(item){
+        return item.id !=id
     })
 
-   
-    }
-   
-     
+    // update localStorage
+    addToLocalStorage(todos)
+}
 
-
-
+getFromLocalStorage()
